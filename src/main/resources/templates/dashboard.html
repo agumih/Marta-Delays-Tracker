@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dashboard</title>
+
+    <style>
+        :root {
+            --bg: #f5f7fa;
+            --card-bg: #ffffff;
+            --border: #e2e8f0;
+            --text: #1a202c;
+            --subtext: #4a5568;
+            --primary: #2563eb;
+            --primary-hover: #1e4fc7;
+            --radius: 10px;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: var(--bg);
+            font-family: "Inter", Arial, sans-serif;
+            color: var(--text);
+        }
+
+        .page {
+            padding: 24px;
+            max-width: 1400px;
+            margin: auto;
+        }
+
+        h2, h3, h4 {
+            margin-top: 0;
+        }
+
+        /* Layout */
+        .main-grid {
+            display: flex;
+            gap: 24px;
+            margin-top: 20px;
+        }
+
+        .left-pane table {
+            flex: 1;
+            max-width: 650px;
+            width: 100%;
+        }
+
+        .right-pane {
+            width: 520px;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        th, td {
+            border: 1px solid var(--border);
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background: #f0f4f8;
+            font-weight: 600;
+        }
+
+        /* Buttons */
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background: var(--primary-hover);
+        }
+
+        .secondary-btn {
+            background: #e2e8f0;
+            color: #1a202c;
+        }
+
+        .secondary-btn:hover {
+            background: #cbd5e1;
+        }
+
+        /* Scroll box */
+        .stations-box {
+            max-height: 350px;
+            overflow-y: auto;
+        }
+
+        /* Auto-refresh note */
+        .tip {
+            font-size: 13px;
+            color: var(--subtext);
+            margin-top: 8px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="page">
+
+    <h2>Dashboard</h2>
+    <p th:text="'Logged in as: ' + ${user.email}"></p>
+
+    <form th:action="@{/logout}" method="post">
+        <button type="submit" class="secondary-btn">Logout</button>
+    </form>
+
+    <div class="card">
+        <h3>My Subscriptions</h3>
+
+        <div th:if="${#lists.isEmpty(subscriptions)}">
+            <p>You have no subscriptions yet.</p>
+        </div>
+
+        <ul th:if="${!#lists.isEmpty(subscriptions)}">
+            <li th:each="s : ${subscriptions}"
+                th:text="${s.station.stationName} + ' (' + ${s.station.code} + ')'">
+            </li>
+        </ul>
+    </div>
+
+    <div class="main-grid">
+
+        <!-- LEFT -->
+        <div class="left-pane">
+            <div class="card">
+                <h3>Live Arrivals</h3>
+
+                <div th:if="${#lists.isEmpty(subscriptions)}">
+                    <p>You have no subscriptions yet.</p>
+                </div>
+
+                <div th:each="s : ${subscriptions}">
+                    <h4 th:text="${s.station.stationName} + ' (' + ${s.station.code} + ')'"></h4>
+
+                    <div th:if="${arrivalsByStationId[s.station.id] == null || #lists.isEmpty(arrivalsByStationId[s.station.id])}">
+                        <p>No realtime arrivals found right now.</p>
+                    </div>
+
+                    <table th:if="${arrivalsByStationId[s.station.id] != null && !#lists.isEmpty(arrivalsByStationId[s.station.id])}">
+                        <thead>
+                        <tr>
+                            <th>Line</th>
+                            <th>Destination</th>
+                            <th>Arrives In</th>
+                            <th>Delay</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="a : ${arrivalsByStationId[s.station.id]}">
+                            <td th:text="${a.line}"></td>
+                            <td th:text="${a.destination}"></td>
+                            <td th:text="${a.waitingTime}"></td>
+                            <td th:text="${a.delay}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <br/>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="right-pane">
+            <div class="card">
+                <h3>Stations</h3>
+
+                <div class="stations-box">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Station</th>
+                            <th>Code</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr th:each="st : ${stations}">
+                            <td th:text="${st.stationName}"></td>
+                            <td th:text="${st.code}"></td>
+                            <td>
+                                <div th:if="${subscribedStationIds.contains(st.id)}">
+                                    <form th:action="@{|/subscriptions/${st.id}/unsubscribe|}" method="post">
+                                        <button type="submit" class="secondary-btn">Unsubscribe</button>
+                                    </form>
+                                </div>
+
+                                <div th:unless="${subscribedStationIds.contains(st.id)}">
+                                    <form th:action="@{|/subscriptions/${st.id}/subscribe|}" method="post">
+                                        <button type="submit">Subscribe</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p class="tip">Subscribe to a station to see arrivals on the left.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        setInterval(() => window.location.reload(), 60000);
+    </script>
+
+</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8" />-->
+<!--    <title>Dashboard</title>-->
+
+<!--    <style>-->
+<!--        /* (A) Reduce left/right padding: ~0.3cm */-->
+<!--        body {-->
+<!--            margin: 0;-->
+<!--            padding: 0.3cm;-->
+<!--            font-family: Arial, sans-serif;-->
+<!--        }-->
+
+<!--        /* (B) Two-column layout */-->
+<!--        .main-grid {-->
+<!--            display: flex;-->
+<!--            gap: 16px;-->
+<!--            align-items: flex-start;-->
+<!--        }-->
+
+<!--        /* Left area (arrivals) should take remaining space */-->
+<!--        .left-pane {-->
+<!--            flex: 1;-->
+<!--            min-width: 0; /* prevents overflow pushing layout */-->
+<!--        }-->
+
+<!--        /* Right area (stations) fixed width and wider */-->
+<!--        .right-pane {-->
+<!--            width: 560px; /* makes Stations about ~1.4" wider */-->
+<!--            flex: 0 0 auto;-->
+<!--        }-->
+
+<!--        /* (C) Make arrivals tables less wide + tighter columns */-->
+<!--        .arrivals-table {-->
+<!--            width: 500px; /* makes subscribed arrivals table less wide */-->
+<!--            table-layout: fixed; /* forces columns to respect widths */-->
+<!--            border-collapse: collapse;-->
+<!--        }-->
+
+<!--        .arrivals-table th,-->
+<!--        .arrivals-table td {-->
+<!--            padding: 6px 8px;-->
+<!--            border: 1px solid #444;-->
+<!--            word-wrap: break-word;-->
+<!--        }-->
+
+<!--        /* (D) Stations table should fill right-pane width */-->
+<!--        .stations-box {-->
+<!--            max-height: 320px;-->
+<!--            overflow-y: auto;-->
+<!--            border: 1px solid #ccc;-->
+<!--            padding: 8px;-->
+<!--        }-->
+
+<!--        .stations-table {-->
+<!--            width: 100%;-->
+<!--            border-collapse: collapse;-->
+<!--            table-layout: fixed;-->
+<!--        }-->
+
+<!--        .stations-table th,-->
+<!--        .stations-table td {-->
+<!--            border: 1px solid #444;-->
+<!--            padding: 6px 8px;-->
+<!--            word-wrap: break-word;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+
+<!--<body>-->
+<!--<div class="page">-->
+
+<!--    <h2>Dashboard</h2>-->
+<!--    <p th:text="'Logged in as: ' + ${user.email}"></p>-->
+
+<!--    <form th:action="@{/logout}" method="post">-->
+<!--        <button type="submit">Logout</button>-->
+<!--    </form>-->
+
+<!--    <hr/>-->
+
+<!--    &lt;!&ndash; My subscriptions stays up top (full width) &ndash;&gt;-->
+<!--    <h3>My Subscriptions</h3>-->
+<!--    <div th:if="${#lists.isEmpty(subscriptions)}">-->
+<!--        <p>You have no subscriptions yet.</p>-->
+<!--    </div>-->
+
+<!--    <ul th:if="${!#lists.isEmpty(subscriptions)}">-->
+<!--        <li th:each="s : ${subscriptions}"-->
+<!--            th:text="${s.station.stationName} + ' (' + ${s.station.code} + ')'">-->
+<!--        </li>-->
+<!--    </ul>-->
+
+<!--    <hr/>-->
+
+<!--    <div class="main-grid">-->
+
+<!--        &lt;!&ndash; LEFT: Live Arrivals &ndash;&gt;-->
+<!--        <div class="left-pane">-->
+<!--            <h3>Live Arrivals (Subscribed Stations)</h3>-->
+
+<!--            <div th:if="${#lists.isEmpty(subscriptions)}">-->
+<!--                <p>You have no subscriptions yet.</p>-->
+<!--            </div>-->
+
+<!--            <div th:each="s : ${subscriptions}">-->
+<!--                <h4 th:text="${s.station.stationName} + ' (' + ${s.station.code} + ')'"></h4>-->
+
+<!--                <div th:if="${arrivalsByStationId[s.station.id] == null || #lists.isEmpty(arrivalsByStationId[s.station.id])}">-->
+<!--                    <p>No realtime arrivals found right now. Please try again in a few minutes.</p>-->
+<!--                </div>-->
+
+<!--                <table class="arrivals-table"-->
+<!--                       th:if="${arrivalsByStationId[s.station.id] != null && !#lists.isEmpty(arrivalsByStationId[s.station.id])}">-->
+<!--                    <colgroup>-->
+<!--                        <col style="width: 90px;">   &lt;!&ndash; Line &ndash;&gt;-->
+<!--                        <col style="width: 320px;">  &lt;!&ndash; Destination &ndash;&gt;-->
+<!--                        <col style="width: 120px;">  &lt;!&ndash; Arrives In &ndash;&gt;-->
+<!--                        <col style="width: 110px;">  &lt;!&ndash; Delay &ndash;&gt;-->
+<!--                    </colgroup>-->
+
+<!--                    <thead>-->
+<!--                    <tr>-->
+<!--                        <th>Line</th>-->
+<!--                        <th>Destination</th>-->
+<!--                        <th>Arrives In</th>-->
+<!--                        <th>Delay</th>-->
+<!--                    </tr>-->
+<!--                    </thead>-->
+
+<!--                    <tbody>-->
+<!--                    <tr th:each="a : ${arrivalsByStationId[s.station.id]}">-->
+<!--                        <td th:text="${a.line}"></td>-->
+<!--                        <td th:text="${a.destination}"></td>-->
+<!--                        <td th:text="${a.waitingTime}"></td>-->
+<!--                        <td th:text="${a.delay}"></td>-->
+<!--                    </tr>-->
+<!--                    </tbody>-->
+<!--                </table>-->
+
+<!--                <br/>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        &lt;!&ndash; RIGHT: Stations list &ndash;&gt;-->
+<!--        <div class="right-pane">-->
+<!--            <h3>Stations</h3>-->
+
+<!--            <div class="stations-box">-->
+<!--                <table class="stations-table">-->
+<!--                    <thead>-->
+<!--                    <tr>-->
+<!--                        <th>Station</th>-->
+<!--                        <th>Code</th>-->
+<!--                        <th>Action</th>-->
+<!--                    </tr>-->
+<!--                    </thead>-->
+
+<!--                    <tbody>-->
+<!--                    <tr th:each="st : ${stations}">-->
+<!--                        <td th:text="${st.stationName}"></td>-->
+<!--                        <td th:text="${st.code}"></td>-->
+<!--                        <td>-->
+<!--                            <div th:if="${subscribedStationIds.contains(st.id)}">-->
+<!--                                <form th:action="@{|/subscriptions/${st.id}/unsubscribe|}" method="post">-->
+<!--                                    <button type="submit">Unsubscribe</button>-->
+<!--                                </form>-->
+<!--                            </div>-->
+
+<!--                            <div th:unless="${subscribedStationIds.contains(st.id)}">-->
+<!--                                <form th:action="@{|/subscriptions/${st.id}/subscribe|}" method="post">-->
+<!--                                    <button type="submit">Subscribe</button>-->
+<!--                                </form>-->
+<!--                            </div>-->
+<!--                        </td>-->
+<!--                    </tr>-->
+<!--                    </tbody>-->
+<!--                </table>-->
+<!--            </div>-->
+
+<!--            <p style="margin-top: 8px;">Tip: Subscribe to a station to see arrivals on the left.</p>-->
+<!--        </div>-->
+
+<!--    </div>-->
+
+<!--    <script>-->
+<!--        setInterval(() => {-->
+<!--            // refresh the whole page to re-run the server-side Marta call + re-render arrivals-->
+<!--            window.location.reload();-->
+<!--        }, 60000);-->
+<!--    </script>-->
+
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
