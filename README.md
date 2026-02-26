@@ -93,6 +93,8 @@ Create:
 
 For Mac/Linux:
 
+```
+
 - export DB_URL=jdbc:postgresql://localhost:5432/marta-delays-tracker
 
 - export DB_USERNAME=you_user_name
@@ -103,6 +105,7 @@ For Mac/Linux:
 
 - export MARTA_RAIL_URL=https://developerservices.itsmarta.com:18096/itsmarta/railrealtimearrivals/developerservices/traindata
 
+```
 
 For Windows PowerShell:
 
@@ -175,4 +178,4 @@ The system:
 👤 Author: Del
 
 
-** This project is for educational and portfolio purposes.
+** This project is for educational and portfolio purposes.**
