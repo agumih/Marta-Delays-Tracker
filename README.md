@@ -6,7 +6,7 @@ A secure, multi-user transit monitoring platform that tracks real-time MARTA rai
 
 Built with Spring Boot, PostgreSQL, Thymeleaf, and the official MARTA Real-Time Rail API.
 
-* Features: *
+* Features: 
 
 🔐 Secure user authentication (Spring Security + BCrypt)
 
