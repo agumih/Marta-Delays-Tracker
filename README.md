@@ -117,6 +117,7 @@ For Windows PowerShell:
 - $env:MARTA_RAIL_URL="https://developerservices.itsmarta.com:18096/itsmarta/railrealtimearrivals/developerservices/traindata"
 
 
+
 2️⃣ Run Application
 
 * mvn spring-boot:run
@@ -173,6 +174,5 @@ The system:
 
 👤 Author: Del
 
-- Computer Science Graduate
 
 This project is for educational and portfolio purposes.
