@@ -54,19 +54,19 @@ Rendered dynamically via Thymeleaf
 
 Backend
 
-Java 17+
+- Java 17+
 
-Spring Boot / Spring Security / Spring Data JPA
+- Spring Boot / Spring Security / Spring Data JPA
 
-Hibernate / RestClient (HTTP integration)
+- Hibernate / RestClient (HTTP integration)
 
-Database: PostgreSQL
+- Database: PostgreSQL
 
-Frontend: Thymeleaf (server-rendered views)
+- Frontend: Thymeleaf (server-rendered views)
 
-Testing: JUnit
+- Testing: JUnit
 
-Build Tool: Maven
+- Build Tool: Maven
 
 
 
@@ -78,40 +78,57 @@ The application uses environment-based configuration.
 Create:
 
 src/main/resources/application-dev.properties
+
 spring.datasource.url=jdbc:postgresql://localhost:5432/marta-delays-tracker
+
 spring.datasource.username=your_user_name
+
 spring.datasource.password=your_password
 
 marta.api.key=your_marta_api_key
+
 marta.rail.url=https://developerservices.itsmarta.com:18096/itsmarta/railrealtimearrivals/developerservices/traindata
 
 
 
-Mac/Linux:
+For Mac/Linux:
 
 export DB_URL=jdbc:postgresql://localhost:5432/marta-delays-tracker
+
 export DB_USERNAME=you_user_name
+
 export DB_PASSWORD=your_password
+
 export MARTA_API_KEY=your_key
+
 export MARTA_RAIL_URL=https://developerservices.itsmarta.com:18096/itsmarta/railrealtimearrivals/developerservices/traindata
 
-Windows PowerShell:
+
+For Windows PowerShell:
 
 $env:DB_URL="jdbc:postgresql://localhost:5432/marta-delays-tracker"
+
 $env:DB_USERNAME="your_user_name"
+
 $env:DB_PASSWORD="your_password"
+
 $env:MARTA_API_KEY="your_key"
+
 $env:MARTA_RAIL_URL="https://developerservices.itsmarta.com:18096/itsmarta/railrealtimearrivals/developerservices/traindata"
+
+
 2️⃣ Run Application
-mvn spring-boot:run
+
+* mvn spring-boot:run
 
 Or:
 
-java -jar target/marta-delays-tracker.jar
+* java -jar target/marta-delays-tracker.jar
 
 Application runs at:
 
 http://localhost:8080
+
 🌐 External API Integration
 
 This project integrates with the official MARTA Rail Real-Time Arrivals API.
