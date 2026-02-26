@@ -171,10 +171,8 @@ The system:
 
 * Redis caching layer
 
-👤 Author
+👤 Author: Del
 
-Del
-
-Computer Science Graduate
+- Computer Science Graduate
 
 This project is for educational and portfolio purposes.
