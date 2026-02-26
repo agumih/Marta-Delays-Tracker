@@ -56,11 +56,9 @@ Backend
 
 Java 17+
 
-Spring Boot
+Spring Boot / Spring Security / Spring Data JPA
 
-Spring Security: Spring Data JPA
-
-Hibernate: RestClient (HTTP integration)
+Hibernate / RestClient (HTTP integration)
 
 Database: PostgreSQL
 
