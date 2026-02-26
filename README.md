@@ -90,8 +90,9 @@ Create:
 - marta.rail.url=https://developerservices.itsmarta.com:18096/itsmarta/railrealtimearrivals/developerservices/traindata
 
 
+
+**For Mac/Linux:**
 ```
-For Mac/Linux:
 
 - export DB_URL=jdbc:postgresql://localhost:5432/marta-delays-tracker
 
@@ -105,8 +106,9 @@ For Mac/Linux:
 
 ```
 
-For Windows PowerShell:
+**For Windows PowerShell:**
 
+```
 - $env:DB_URL="jdbc:postgresql://localhost:5432/marta-delays-tracker"
 
 - $env:DB_USERNAME="your_user_name"
@@ -117,6 +119,7 @@ For Windows PowerShell:
 
 - $env:MARTA_RAIL_URL="https://developerservices.itsmarta.com:18096/itsmarta/railrealtimearrivals/developerservices/traindata"
 
+```
 
 
 2️⃣ Run Application
