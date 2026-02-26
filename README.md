@@ -90,10 +90,8 @@ Create:
 - marta.rail.url=https://developerservices.itsmarta.com:18096/itsmarta/railrealtimearrivals/developerservices/traindata
 
 
-
-```For Mac/Linux:
-
-
+```
+For Mac/Linux:
 
 - export DB_URL=jdbc:postgresql://localhost:5432/marta-delays-tracker
 
