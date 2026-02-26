@@ -140,41 +140,41 @@ This project integrates with the official MARTA Rail Real-Time Arrivals API.
 
 The system:
 
-* Fetches 100+ live arrival records per request
+- Fetches 100+ live arrival records per request
 
-* Handles intermittent 500 errors gracefully
+- Handles intermittent 500 errors gracefully
 
-* Avoids duplicate alerts via state comparison logic
+- Avoids duplicate alerts via state comparison logic
 
-* Transforms raw API responses into structured DTOs
+- Transforms raw API responses into structured DTOs
 
 🧠 Design Decisions
 
-* Server-rendered UI (Thymeleaf) to maintain simplicity and full backend control
+- Server-rendered UI (Thymeleaf) to maintain simplicity and full backend control
 
-* No client-side JavaScript frameworks
+- No client-side JavaScript frameworks
 
-* Layered architecture for separation of concerns
+- Layered architecture for separation of concerns
 
-* Environment-based configuration for production safety
+- Environment-based configuration for production safety
 
-* Graceful fallback when MARTA API is unavailable
+- Graceful fallback when MARTA API is unavailable
 
 📊 Future Improvements
 
-* Station-specific delay notification service
+- Station-specific delay notification service
 
-* Email or SMS alert integration
+- Email or SMS alert integration
 
-* Caching of last successful API response
+- Caching of last successful API response
 
-* Docker containerization
+- Docker containerization
 
-* CI/CD deployment pipeline
+- CI/CD deployment pipeline
 
-* Role-based admin dashboard
+- Role-based admin dashboard
 
-* Redis caching layer
+- Redis caching layer
 
 👤 Author: Del
 
