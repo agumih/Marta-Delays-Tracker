@@ -74,17 +74,6 @@ Build Tool: Maven
 
 The application uses environment-based configuration.
 
-application.properties (committed)
-spring.application.name=marta-delays-tracker
-spring.profiles.active=${SPRING_PROFILES_ACTIVE:dev}
-
-marta.api.key=${MARTA_API_KEY}
-marta.rail.url=${MARTA_RAIL_URL}
-
-spring.datasource.url=${DB_URL}
-spring.datasource.username=${DB_USERNAME}
-spring.datasource.password=${DB_PASSWORD}
-
 
 Create:
 
