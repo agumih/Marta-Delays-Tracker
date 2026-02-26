@@ -77,44 +77,44 @@ The application uses environment-based configuration.
 
 Create:
 
-src/main/resources/application-dev.properties
+- src/main/resources/application-dev.properties
 
-spring.datasource.url=jdbc:postgresql://localhost:5432/marta-delays-tracker
+- spring.datasource.url=jdbc:postgresql://localhost:5432/marta-delays-tracker
 
-spring.datasource.username=your_user_name
+- spring.datasource.username=your_user_name
 
-spring.datasource.password=your_password
+- spring.datasource.password=your_password
 
-marta.api.key=your_marta_api_key
+- marta.api.key=your_marta_api_key
 
-marta.rail.url=https://developerservices.itsmarta.com:18096/itsmarta/railrealtimearrivals/developerservices/traindata
+- marta.rail.url=https://developerservices.itsmarta.com:18096/itsmarta/railrealtimearrivals/developerservices/traindata
 
 
 
 For Mac/Linux:
 
-export DB_URL=jdbc:postgresql://localhost:5432/marta-delays-tracker
+- export DB_URL=jdbc:postgresql://localhost:5432/marta-delays-tracker
 
-export DB_USERNAME=you_user_name
+- export DB_USERNAME=you_user_name
 
-export DB_PASSWORD=your_password
+- export DB_PASSWORD=your_password
 
-export MARTA_API_KEY=your_key
+- export MARTA_API_KEY=your_key
 
-export MARTA_RAIL_URL=https://developerservices.itsmarta.com:18096/itsmarta/railrealtimearrivals/developerservices/traindata
+- export MARTA_RAIL_URL=https://developerservices.itsmarta.com:18096/itsmarta/railrealtimearrivals/developerservices/traindata
 
 
 For Windows PowerShell:
 
-$env:DB_URL="jdbc:postgresql://localhost:5432/marta-delays-tracker"
+- $env:DB_URL="jdbc:postgresql://localhost:5432/marta-delays-tracker"
 
-$env:DB_USERNAME="your_user_name"
+- $env:DB_USERNAME="your_user_name"
 
-$env:DB_PASSWORD="your_password"
+- $env:DB_PASSWORD="your_password"
 
-$env:MARTA_API_KEY="your_key"
+- $env:MARTA_API_KEY="your_key"
 
-$env:MARTA_RAIL_URL="https://developerservices.itsmarta.com:18096/itsmarta/railrealtimearrivals/developerservices/traindata"
+- $env:MARTA_RAIL_URL="https://developerservices.itsmarta.com:18096/itsmarta/railrealtimearrivals/developerservices/traindata"
 
 
 2️⃣ Run Application
@@ -135,13 +135,13 @@ This project integrates with the official MARTA Rail Real-Time Arrivals API.
 
 The system:
 
-Fetches 100+ live arrival records per request
+* Fetches 100+ live arrival records per request
 
-Handles intermittent 500 errors gracefully
+* Handles intermittent 500 errors gracefully
 
-Avoids duplicate alerts via state comparison logic
+* Avoids duplicate alerts via state comparison logic
 
-Transforms raw API responses into structured DTOs
+* Transforms raw API responses into structured DTOs
 
 🧠 Design Decisions
 
