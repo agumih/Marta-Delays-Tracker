@@ -58,29 +58,17 @@ Java 17+
 
 Spring Boot
 
-Spring Security
+Spring Security: Spring Data JPA
 
-Spring Data JPA
+Hibernate: RestClient (HTTP integration)
 
-Hibernate
+Database: PostgreSQL
 
-RestClient (HTTP integration)
+Frontend: Thymeleaf (server-rendered views)
 
-Database
+Testing: JUnit
 
-PostgreSQL
-
-Frontend
-
-Thymeleaf (server-rendered views)
-
-Testing
-
-JUnit
-
-Build Tool
-
-Maven
+Build Tool: Maven
 
 
 
