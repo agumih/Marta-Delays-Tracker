@@ -6,49 +6,49 @@ A secure, multi-user transit monitoring platform that tracks real-time MARTA rai
 
 Built with Spring Boot, PostgreSQL, Thymeleaf, and the official MARTA Real-Time Rail API.
 
-* Features: 
+Features: 
 
-🔐 Secure user authentication (Spring Security + BCrypt)
+- 🔐 Secure user authentication (Spring Security + BCrypt)
 
-🧾 User registration & login
+- 🧾 User registration & login
 
-📍 Subscribe / Unsubscribe to rail stations
+- 📍 Subscribe / Unsubscribe to rail stations
 
-🚆 Real-time arrival data from MARTA Rail API
+- 🚆 Real-time arrival data from MARTA Rail API
 
-🔄 Automatic refresh every 60 seconds
+- 🔄 Automatic refresh every 60 seconds
 
-🧠 Server-side filtering of arrivals per subscribed station
+- 🧠 Server-side filtering of arrivals per subscribed station
 
-🛡 Graceful handling of external API failures
+- 🛡 Graceful handling of external API failures
 
-🗄 PostgreSQL-backed persistent storage
+- 🗄 PostgreSQL-backed persistent storage
 
-🧪 Service-layer unit testing (JUnit)
+- 🧪 Service-layer unit testing (JUnit)
 
 🏗 Architecture
 
-The application follows a layered architecture:
+- The application follows a layered architecture:
 
-Controller → Service → Repository → Database
+- Controller → Service → Repository → Database
 
-Controllers handle HTTP requests and responses
+- Controllers handle HTTP requests and responses
 
-Services contain business logic and API aggregation
+- Services contain business logic and API aggregation
 
-Repositories manage database access via Spring Data JPA
+- Repositories manage database access via Spring Data JPA
 
-Entities represent domain models (User, Station, Subscription)
+- Entities represent domain models (User, Station, Subscription)
 
 Real-time MARTA data is:
 
-Fetched from the external API
+- Fetched from the external API
 
-Transformed into DTO objects
+- Transformed into DTO objects
 
-Filtered server-side based on user subscriptions
+- Filtered server-side based on user subscriptions
 
-Rendered dynamically via Thymeleaf
+- Rendered dynamically via Thymeleaf
 
 🛠 Tech Stack
 
