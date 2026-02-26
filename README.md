@@ -82,22 +82,9 @@ Build Tool
 
 Maven
 
-📦 Project Structure
-marta-delays-tracker/
-├── controller/
-├── service/
-├── repository/
-├── entity/
-├── dto/
-├── security/
-├── src/main/resources/
-│   ├── templates/
-│   ├── static/
-│   ├── application.properties
-│   └── application-dev.properties (ignored)
-└── pom.xml
-🔐 Environment Configuration
 
+
+🔐 Environment Configuration
 
 The application uses environment-based configuration.
 
