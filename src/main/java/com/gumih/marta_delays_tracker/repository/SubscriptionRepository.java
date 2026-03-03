@@ -3,6 +3,7 @@ package com.gumih.marta_delays_tracker.repository;
 import com.gumih.marta_delays_tracker.entity.Station;
 import com.gumih.marta_delays_tracker.entity.Subscription;
 import com.gumih.marta_delays_tracker.entity.User;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -12,10 +13,13 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Long
 
     // For Thymeleaf, switching to quering by the User entity, instead of IDs.
 
+    @EntityGraph(attributePaths = {"station"})
     List<Subscription> findByUser(User user);
 
     boolean existsByUserAndStation(User user, Station station);
+    
 
+    @EntityGraph(attributePaths = {"station"})
     Optional<Subscription> findByUserAndStation(User user, Station station);
 
 
